@@ -12,15 +12,15 @@ public class SettingsControl : MonoBehaviour
     {
 		if (IsOpen)
 		{
+			Debug.Log("Open");
 			IsOpen = false;
-
 			panel.GetComponent<Animator>().SetBool("IsOpen", IsOpen);
 			panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, -41f);
 		}
 		else
 		{
+			Debug.Log("NoOpen");
 			IsOpen = true;
-			panel.SetActive(true);
 			panel.GetComponent<Animator>().SetBool("IsOpen", IsOpen);
 			panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, 51.8f);
 		}
