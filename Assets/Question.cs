@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 	static MongoClient client;
 	static IMongoDatabase QuestionDatabase;
 	static IMongoCollection<Question> QuestionCollection;
-	public Question(string newDescription, string newAnswer)
-		{
+	public Question(string newDescription, string newAnswer, string category)
+	{
 
-			Description = newDescription;
-			Answer = newAnswer;
+		Description = newDescription;
+		Answer = newAnswer;
+		Category = category;
 	}
 	[BsonId]
 	[BsonIgnoreIfDefault]
@@ -25,6 +26,7 @@ using System.Threading.Tasks;
 
 	public string Description { get; set; }
         public string Answer { get; set; }
+	public string Category { get; set; }
 	public void AddToDb()
 	{
 		client = new MongoClient();

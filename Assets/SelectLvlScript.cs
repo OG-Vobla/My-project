@@ -10,10 +10,14 @@ public class SelectLvlScript : MonoBehaviour
 	public static bool TemaIsOpen = false;
 	public void OpenGame()
 	{
-		GameIsOpen = true;
-		Debug.Log("NoOpen");
-		GamePanel.GetComponent<Animator>().SetBool("IsOpen", GameIsOpen);
-		GamePanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, 51.8f);
+		if (MainScript.player.Energy != 0)
+		{
+			GameIsOpen = true;
+			Debug.Log("NoOpen");
+			GamePanel.GetComponent<Animator>().SetBool("IsOpen", GameIsOpen);
+			GamePanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, 51.8f);
+		}
+
 	}
 	public void CloseGame()
 	{
@@ -34,7 +38,6 @@ public class SelectLvlScript : MonoBehaviour
 	public void CloseTema()
 	{
 		TemaIsOpen = false;
-
 		Debug.Log("Open");
 		TemaPanel.GetComponent<Animator>().SetBool("IsOpen", TemaIsOpen);
 		TemaPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, -41f);

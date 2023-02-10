@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopControl : MonoBehaviour
 {
 	// Start is called before the first frame update
 
 	[SerializeField] private Transform Shop;
+	[SerializeField] private GameObject Energy;
+	[SerializeField] private GameObject Money;
 	GameObject newShop;
 	void Start()
     {
@@ -27,6 +30,16 @@ public class ShopControl : MonoBehaviour
 		this.newShop = newShop;
 		StartCoroutine(newEnumerator());
 		
+	}
+	public void BuyMoney(int count)
+	{
+		MainScript.player.Money += count;
+		Money.GetComponent<Text>().text = MainScript.player.Money.ToString();
+	}
+	public void BuyEnergy(int count)
+	{
+		MainScript.player.Energy += count;
+		Energy.GetComponent<Text>().text = MainScript.player.Energy.ToString();
 	}
 	public IEnumerator enumerator()
     {
