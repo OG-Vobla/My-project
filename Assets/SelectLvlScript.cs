@@ -6,19 +6,19 @@ public class SelectLvlScript : MonoBehaviour
 {
 	[SerializeField] private GameObject GamePanel; 
 	[SerializeField] private GameObject TemaPanel;
-	bool GameIsOpen = false;
-	bool TemaIsOpen = false;
+	public static bool GameIsOpen = false;
+	public static bool TemaIsOpen = false;
 	public void OpenGame()
 	{
-		Debug.Log("NoOpen");
 		GameIsOpen = true;
+		Debug.Log("NoOpen");
 		GamePanel.GetComponent<Animator>().SetBool("IsOpen", GameIsOpen);
 		GamePanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, 51.8f);
 	}
 	public void CloseGame()
 	{
-		Debug.Log("Open");
 		GameIsOpen = false;
+		Debug.Log("Open");
 		GamePanel.GetComponent<Animator>().SetBool("IsOpen", GameIsOpen);
 		GamePanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, -41f);
 
@@ -26,23 +26,30 @@ public class SelectLvlScript : MonoBehaviour
 
 	public void OpenTema()
 	{
-		Debug.Log("NoOpen");
 		TemaIsOpen = true;
+		Debug.Log("NoOpen");
 		TemaPanel.GetComponent<Animator>().SetBool("IsOpen", TemaIsOpen);
 		TemaPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, 51.8f);
 	}
 	public void CloseTema()
 	{
-		
-		Debug.Log("Open");
 		TemaIsOpen = false;
+
+		Debug.Log("Open");
 		TemaPanel.GetComponent<Animator>().SetBool("IsOpen", TemaIsOpen);
 		TemaPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(443.5f, -41f);
 
 	}
 	public void Home()
 	{
-		//CloseTema();
-		CloseGame();
+		if(TemaIsOpen)
+		{
+			CloseTema();
+		}
+		if (GameIsOpen)
+		{
+			CloseGame();
+		}
+		
 	}
 }

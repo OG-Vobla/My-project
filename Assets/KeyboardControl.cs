@@ -24,22 +24,24 @@ public class KeyboardControl : MonoBehaviour
     private List<int> RndPlace;
 	private int numOfLastSym;
 	private List<GameObject> ButtonsInAnswer;
-	void Start()
-    {
+	bool TimerIsStart = false;
+	public void StartGame()
+	{
+		TimerIsStart = true;
 		MainCanvas = newMainCanvas;
 		question = Question.FindAllInDb()[0];
 		DialogBegin.GetComponent<Text>().text = "Vnimanie vopros:";
-		DialogBegin.GetComponent<Text>().color= Color.blue;
+		DialogBegin.GetComponent<Text>().color = Color.blue;
 		QuesTextBox.GetComponent<Text>().text = question.Description;
 		question.Answer = question.Answer.ToUpper();
 		RndPlace = new List<int>();
-		ButtonsInAnswer= new List<GameObject>();
+		ButtonsInAnswer = new List<GameObject>();
 		for (int i = 0; i < question.Answer.Length; i++)
 		{
 			RndPlace.Add(UnityEngine.Random.Range(0, 29));
 			while (RndPlace.Any(s => s == RndPlace[i] && RndPlace.IndexOf(s) != i))
 			{
-				RndPlace[i]= (UnityEngine.Random.Range(0, 29));
+				RndPlace[i] = (UnityEngine.Random.Range(0, 29));
 			}
 			Debug.Log(RndPlace[i]);
 			var newBtn = Instantiate(AnswerBtn, AnswerPanel);
@@ -63,31 +65,52 @@ public class KeyboardControl : MonoBehaviour
 			}
 
 		}
+	}
+	public void StopGame()
+	{
+		if (Panel.GetChildCount()!= 0)
+		{
+			TimerIsStart = false;
+			timeForAnswer = 90f;
+			for (int i = 0; i < 30; i++)
+			{
+				Destroy(Panel.GetChild(i).gameObject);
+
+			}
+			for (int i = 0; i < question.Answer.Length; i++)
+			{
+				Destroy(AnswerPanel.GetChild(i).gameObject);
+			}
+		}
+
+	}
+	void Start()
+    {
+
 
 	}
 
     // Update is called once per frame
     void FixedUpdate()
     {
-		if(timeForAnswer> 0)
+		if (TimerIsStart)
 		{
-			timeForAnswer -= Time.deltaTime;
+			if (timeForAnswer > 0)
+			{
+				timeForAnswer -= Time.deltaTime;
+			}
+			else
+			{
+				timeForAnswer = 0;
+				QuesTextBox.GetComponent<Text>().text = "";
+				DialogBegin.GetComponent<Text>().text = "Vrem'a vushlo";
+				DialogBegin.GetComponent<Text>().color = Color.red;
+
+			}
+			DisplayTime(timeForAnswer);
 		}
-		else
-		{
-			timeForAnswer= 0;
-			QuesTextBox.GetComponent<Text>().text = "";
-			DialogBegin.GetComponent<Text>().text = "Vrem'a vushlo";
-			DialogBegin.GetComponent<Text>().color = Color.red;
 
-		}
-		DisplayTime(timeForAnswer);
 
-	}
-    public void AddOnPanel()
-    {
-
-        
 	}
 	void DisplayTime(float time)
 	{
