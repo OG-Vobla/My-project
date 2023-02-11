@@ -70,27 +70,24 @@ public class KeyboardControl : MonoBehaviour
 		Energy.GetComponent<Text>().text = MainScript.player.Energy.ToString();
 		TimerIsStart = true;
 		MainCanvas = newMainCanvas;
-		ques = new List<Question>();
-		foreach (var i in Question.FindAllInDb())
+		CompleteQues = new List<Question>();
+		foreach (var i in ques)
 		{
 			if ((Category == i.Category || Category == "Случайные" ) )
 			{
-				foreach (var a in CompleteQues)
-				{
-
-				}
-				
+				CompleteQues.Add(i);
 			}
 		}
 		Debug.Log("Kol ques " + ques.Count); 
 		Debug.Log("Kol compques " + CompleteQues.Count);
-		if (ques.Count == 0)
+		if (CompleteQues.Count == 0)
 		{
 			MessagePanel.GetComponentInChildren<Text>().text = "Вы ответили на все вопросы.";
 			OpenMessage();
+			HomeBtn.GetComponent<Button>().onClick.Invoke();
 			return;
 		}
-		question = ques[UnityEngine.Random.Range(0, ques.Count)];
+		question = CompleteQues[UnityEngine.Random.Range(0, CompleteQues.Count)];
 		DialogBegin.GetComponent<Text>().text = "Внимание вопрос:";
 		DialogBegin.GetComponent<Text>().color = Color.blue;
 		QuesTextBox.GetComponent<Text>().text = question.Description;
@@ -172,7 +169,7 @@ public class KeyboardControl : MonoBehaviour
 	void Start()
     {
 		UpdateRewards();
-		CompleteQues = new List<Question>();
+		ques = Question.FindAllInDb();
 
 	}
 
@@ -231,7 +228,7 @@ public class KeyboardControl : MonoBehaviour
 		DialogBegin.GetComponent<Text>().color = Color.green;
 		NextBtn.SetActive(true);
 		AnswerIsCorect = true;
-		CompleteQues.Add(question);
+		ques.Remove(question);
 		if (MainScript.player.ExpToNewLvl <= MainScript.player.Exp + 100)
 		{
 			LvlUpOpen();
